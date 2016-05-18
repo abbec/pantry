@@ -45,6 +45,19 @@ Get information on a single target.
 + Response 200 (application/json)
 
     + Attributes (Target)
+    
+### Update single target [PATCH]
+
+Update values for a single target.
+
++ Request (application/json)
+
+        [
+            { "op": "add", "path": "/nickname", "value": "Sunissimo" },
+            { "op": "replace", "path": "/healthPercent", "value": 99 }
+        ]
+        
++ Response 204
 
 ### Delete single target [DELETE]
 
@@ -52,11 +65,58 @@ Delete the target indicated by the id parameter.
 
 + Response 204
 
+## Events for a single target [/targets/{targetid}/events]
+Handles events for a given target.
+
++ Parameters
+    
+    + targetid: 1337 (number) - Integer id of the target
+    
+### Get events for a single target [GET]
+
+List events for the target indicated by `targetid`
+
++ Response 200 (application/json)
+
+### Create an event for a single target [POST]
+
+Create an event for target with id `targetid`
+
++ Request (application/json)
+
+    + Attributes (Event)
+
++ Response 201 (application/json)
+
+    Location: /targets/14/events/25
+    
+    + Attributes (Event)
+
 ## Data Structures
 
 ### Target
 + hostname: Sune (string, required)
++ nickname: Sunisen (string)
 + description: Sune's machine (string, required)
++ maintainer: Sune Sunesson (string, required)
++ healthPercent: 89 (number)
++ state (enum)
+    + ready
+    + leased
+    + down
+    + maintenance
++ tags (array)
+    + (object)
+        + key: platform (string, required)
+        + value: linux (string, required)
+        
+### Event
++ timestamp
++ message: "Something happened" (string, required)
++ targetId: 14 (number, required)
+
+### Events
++ events (array[Event])
 
 ### Targets
 + targets (array[Target])
@@ -73,14 +133,59 @@ List all known leases.
 
     + Attributes
         + leases: Lease, Lease (array[Lease], required)
+        
+### Create a new lease [POST]
+
+Create a new lease, requesting hardware according to the information in the leas structure.
+
++ Request (application/json)
+
+    + Attributes (Lease)
+    
++ Response 201 (application/json)
+
+    Location: /leases/11
+
+    + Attributes (Lease)
+
+## Single Lease [/leases/{leaseid}]
+
+Single lease operations
+
++ Parameters
+
+    + leaseid: 14 (number) - Integer id of the lease
+    
+### Get a single lease [GET]
+
+Get information on the lease given by `leaseid`.
+
++ Response 200 (application/json)
+
+    + Attributes (Lease)
+    
+### Renew a lease [POST]
+
+Renews the lease with the given `leaseid` and extends the timeout with the `time` value of the lease.
+
++ Response 204
 
 ## Data Structures
 
 ### Lease
-+ state (enum, required)
++ state (enum, required) - State of this lease request
     + assigningtargets
     + ended
     + active
++ fulfilled: true (boolean) - Indicates whether all requests were fulfilled. If this is false and state is `active` it means that the request was partially fulfilled
++ createdAt
++ updatedAt
++ time (number, required) - Time in minutes to lease the hardware for
++ requests (array)
+    + (object)
+        + tags: linux, 64bit, debian (array)
+        + numTargets: 2 (number)
+        + assignedTargets: 1, 3, 4 (array[number]) - The targets currently assigned to this request 
 
 ### Leases
 + leases (array[Lease], required)
