@@ -1,0 +1,86 @@
+FORMAT: 1A
+
+# Pantry
+
+Pantry is a simple API for hardware leasing.
+
+# Group Targets
+
+
+## Target Collection [/targets]
+
+### List all available targets [GET]
+
+List all available targets in the pool.
+
++ Response 200 (application/json)
+
+    + Attributes (Targets)
+
+### Create a new target [POST]
+
+Make a new target available for leasing.
+
++ Request (application/json)
+
+    + Attributes (Target)
+
++ Response 201 (application/json)
+
+    Location: /targets/1
+
+    + Attributes (Target)
+
+## Target [/targets/{targetid}]
+Single target operations.
+
++ Parameters
+
+    + targetid: 1 (number) - Integer id of the target
+
+### Get single target [GET]
+
+Get information on a single target.
+
++ Response 200 (application/json)
+
+    + Attributes (Target)
+
+### Delete single target [DELETE]
+
+Delete the target indicated by the id parameter.
+
++ Response 204
+
+## Data Structures
+
+### Target
++ hostname: Sune (string, required)
++ description: Sune's machine (string, required)
+
+### Targets
++ targets (array[Target])
+
+# Group Leases
+
+## Lease Collection [/leases]
+
+### List all leases [GET]
+
+List all known leases.
+
++ Response 200 (application/json)
+
+    + Attributes
+        + leases: Lease, Lease (array[Lease], required)
+
+## Data Structures
+
+### Lease
++ state (enum, required)
+    + assigningtargets
+    + ended
+    + active
+
+### Leases
++ leases (array[Lease], required)
