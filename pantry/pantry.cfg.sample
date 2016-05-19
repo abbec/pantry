@@ -1,0 +1,8 @@
+DB_DRIVER = "sqlite"
+DB_NAME = "pantry.db"
+
+# enabling this causes perf degradation
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+DEBUG = True
+#PROFILE = True
