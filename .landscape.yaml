@@ -1,0 +1,7 @@
+python-targets: 3
+ignore-paths:
+  - migrations
+uses:
+  - flask
+pep8:
+  full: true

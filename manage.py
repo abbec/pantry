@@ -1,6 +1,6 @@
 import pantry
 
-from flask.ext.script import Manager, Server
+from flask.ext.script import Manager
 from flask.ext.migrate import MigrateCommand
 import pantry.manage.seed as seed
 
