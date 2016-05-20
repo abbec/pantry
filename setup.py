@@ -6,8 +6,5 @@ setup(name='pantry',
             'Flask',
             'Flask-SQLAlchemy',
             'Flask-Migrate',
-            'fake-factory',
-            'pytest',
-            'pytest-cov',
             ]
         )
