@@ -5,6 +5,7 @@ from pantry.db import db as database
 
 targets_blueprint = flask.Blueprint("targets", __name__)
 
+
 @targets_blueprint.route('/targets/', methods=['GET'])
 def list_targets():
 
@@ -13,4 +14,4 @@ def list_targets():
 
     results = [dict(row) for row in result]
 
-    return flask.jsonify({"targets" : results})
+    return flask.jsonify({"targets": results})

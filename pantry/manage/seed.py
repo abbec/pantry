@@ -1,5 +1,5 @@
 import flask
-import flask.ext.script as script
+from flask.ext import script
 import pantry
 
 import pantry.db.fake as fake
@@ -7,9 +7,10 @@ import pantry.db.targets as dbtargets
 
 from pantry.db import db as database
 
-class SeedDatabase(script.Command):
 
-    def run(self):
+class SeedDatabase(script.Command):  # pylint:disable=too-few-public-methods
+
+    def run(self):  # pylint:disable=no-self-use
         print("seeding database...")
         app = pantry.create_app("pantry.cfg")
 
@@ -21,7 +22,8 @@ class SeedDatabase(script.Command):
             database.create_all()
 
             # targets
-            database.engine.execute(dbtargets.targets_table.insert(), 
-                    fake.create_targets(100))
+            database.engine.execute(
+                dbtargets.targets_table.insert(),
+                fake.create_targets(100))
 
         print("done!")

@@ -2,3 +2,6 @@
 pytest
 pytest-cov
 fake-factory
+pylint
+pyflakes
+flake8
