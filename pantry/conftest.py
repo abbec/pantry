@@ -2,12 +2,13 @@ import pytest
 import pantry
 from pantry.db import db as database
 
+
 @pytest.fixture()
 def app(request):
-    app = pantry.create_app('pantry-testing.cfg')
-    app.config['TESTING'] = True
+    application = pantry.create_app('pantry-testing.cfg')
+    application.config['TESTING'] = True
 
-    ctx = app.app_context()
+    ctx = application.app_context()
     ctx.push()
 
     def finalize():
@@ -15,10 +16,11 @@ def app(request):
 
     request.addfinalizer(finalize)
 
-    return app
+    return application
+
 
 @pytest.fixture()
-def db(app, request):
+def db(app, request):  # pylint:disable=W0621
 
     database.init_app(app)
     database.create_all()

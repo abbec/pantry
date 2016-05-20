@@ -18,7 +18,7 @@ def create_targets(num_targets):
             "maintainer": fake.safe_email(),
             "health_percent": rand.randint(0, 100),
             "state": "ready"
-            }
+        }
 
         targets.append(target)
 

@@ -20,4 +20,4 @@ targets_table = database.Table(
     database.Column('health_percent', database.Integer),
     database.Column('state', database.Enum(
         "ready", "leased", "down", "maintenance"))
-    )
+)
