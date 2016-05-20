@@ -1,10 +1,10 @@
-from pantry import create_app
+import pantry
 
 from flask.ext.script import Manager, Server
 from flask.ext.migrate import MigrateCommand
 import pantry.manage.seed as seed
 
-application = create_app('pantry.cfg')
+application = pantry.create_app('pantry.cfg')
 manager = Manager(application)
 manager.add_command('db', MigrateCommand)
 manager.add_command('seed', seed.SeedDatabase)

@@ -1,5 +1,6 @@
 import logging, os
 import flask
+import werkzeug.contrib.profiler as profiler
 from pantry.db import db as database, migrate
 
 from pantry.v1 import register_api as register_api_v1
@@ -41,7 +42,7 @@ def create_app(cfg_file):
 
     # set up wanted middleware
     if app.config.get('PROFILE', False):
-        app.wsgi_app = ProfilerMiddleware(app.wsgi_app, restrictions=[10])
+        app.wsgi_app = profiler.ProfilerMiddleware(app.wsgi_app, restrictions=[10])
 
     # init database
     database.init_app(app)
