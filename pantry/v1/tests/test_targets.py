@@ -13,7 +13,7 @@ class TestTargets(object):
 
         # insert an event
         tgt = fake.create_targets(1)
-        db.engine.execute(targets_table.insert().values(tgt))
+        db.engine.execute(targets_table.insert(), tgt)
 
         # fetch and verify
         r = app.test_client().get('/api/v1/targets/')
