@@ -18,3 +18,17 @@ def test_list(app, db):
     data = get_json(r)
 
     assert len(data['targets']) > 0
+
+
+def test_single(app, db):
+
+    # insert an event
+    tgt = fake.create_targets(1)
+    db.engine.execute(targets_table.insert(), tgt)
+
+    # fetch and verify
+    r = app.test_client().get('/api/v1/targets/1/')
+    data = get_json(r)
+
+    assert r.status_code == 200
+    assert data["hostname"] is not None
