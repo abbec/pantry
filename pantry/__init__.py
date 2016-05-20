@@ -4,6 +4,7 @@ import flask
 import werkzeug.contrib.profiler as profiler
 from pantry.db import db as database, migrate
 from pantry.v1 import register_api as register_api_v1
+from pantry.common import pantry_error
 
 # import database schemas
 import pantry.db.targets  # noqa
@@ -46,6 +47,9 @@ def create_app(cfg_file):
 
     # init database
     database.init_app(app)
+
+    # error handling
+    app.register_blueprint(pantry_error.pantry_error)
 
     # database migrations
     migrate.init_app(app, database)
