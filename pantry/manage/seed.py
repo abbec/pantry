@@ -20,9 +20,8 @@ class SeedDatabase(script.Command):
             database.drop_all()
             database.create_all()
 
-            targets = fake.create_targets(100)
-
-            q = dbtargets.targets_table.insert().values(targets)
-            database.engine.execute(q)
+            # targets
+            database.engine.execute(dbtargets.targets_table.insert(), 
+                    fake.create_targets(100))
 
         print("done!")
