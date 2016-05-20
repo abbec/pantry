@@ -5,7 +5,7 @@ from pantry.db import db as database
 
 targets_blueprint = flask.Blueprint("targets", __name__)
 
-@targets_blueprint.route('/targets', methods=['GET'])
+@targets_blueprint.route('/targets/', methods=['GET'])
 def list_targets():
 
     q = targetsdb.targets_table.select()

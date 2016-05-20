@@ -25,6 +25,4 @@ class SeedDatabase(script.Command):
             q = dbtargets.targets_table.insert().values(targets)
             database.engine.execute(q)
 
-            database.session.commit()
-
         print("done!")

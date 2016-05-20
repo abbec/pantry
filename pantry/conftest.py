@@ -4,7 +4,7 @@ from pantry.db import db as database
 
 @pytest.fixture()
 def app(request):
-    app = create_app('pantry-testing.cfg')
+    app = pantry.create_app('pantry-testing.cfg')
     app.config['TESTING'] = True
 
     ctx = app.app_context()
