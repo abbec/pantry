@@ -1,6 +1,6 @@
 import flask
 
-pantry_error = flask.Blueprint('muffin_error', __name__)
+pantry_error = flask.Blueprint('pantry_error', __name__)
 
 
 class PantryError(Exception):
