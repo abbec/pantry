@@ -9,6 +9,7 @@ from pantry.db import db as database
 
 
 class SeedDatabase(script.Command):  # pylint:disable=too-few-public-methods
+    "Seeds database with mock data"
 
     def run(self):  # pylint:disable=no-self-use
         print("seeding database...")
