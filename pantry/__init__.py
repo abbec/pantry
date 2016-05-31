@@ -71,17 +71,17 @@ def create_celery(cfg, app=None):
                              'amqp://localhost'))
 
     capp.conf.update(app.config)
-    TaskBase = celery.Task
+    taskBase = celery.Task
 
-    class ContextTask(TaskBase):
+    class ContextTask(taskBase):
         abstract = True
 
         def run(self, *args, **kwargs):
-            return TaskBase.run(self, *args, **kwargs)
+            return taskBase.run(self, *args, **kwargs)
 
         def __call__(self, *args, **kwargs):
             with app.app_context():
-                return TaskBase.__call__(self, *args, **kwargs)
+                return taskBase.__call__(self, *args, **kwargs)
 
     capp.Task = ContextTask
     return capp
