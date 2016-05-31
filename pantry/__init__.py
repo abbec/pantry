@@ -1,6 +1,7 @@
 import logging
 import os
 import flask
+import celery
 import werkzeug.contrib.profiler as profiler
 from pantry.db import db as database, migrate
 from pantry.v1 import register_api as register_api_v1
@@ -58,3 +59,27 @@ def create_app(cfg_file):
     register_api_v1(app, url_prefix="/api/v1")
 
     return app
+
+
+def create_celery(cfg, app=None):
+
+    app = app or create_app(cfg)
+    capp = celery.Celery(app.import_name,
+                         backend=app.config['CELERY_BACKEND'],
+                         broker=app.config['CELERY_BROKER_URL'])
+
+    capp.conf.update(app.config)
+    TaskBase = celery.Task
+
+    class ContextTask(TaskBase):
+        abstract = True
+
+        def run(self, *args, **kwargs):
+            return TaskBase.run(self, *args, **kwargs)
+
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return TaskBase.__call__(self, *args, **kwargs)
+
+    capp.Task = ContextTask
+    return capp

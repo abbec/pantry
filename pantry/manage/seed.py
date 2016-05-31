@@ -1,5 +1,5 @@
 import flask
-from flask.ext import script
+import flask_script as script
 import pantry
 
 import pantry.db.fake as fake
@@ -11,7 +11,7 @@ from pantry.db import db as database
 class SeedDatabase(script.Command):  # pylint:disable=too-few-public-methods
     "Seeds database with mock data"
 
-    def run(self):  # pylint:disable=no-self-use
+    def run(self):  # pylint:disable=no-self-use,method-hidden
         print("seeding database...")
         app = pantry.create_app("pantry.cfg")
 

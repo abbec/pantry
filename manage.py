@@ -1,5 +1,5 @@
-from flask.ext import script
-from flask.ext import migrate
+import flask_script as script
+import flask_migrate as migrate
 
 import pantry
 import pantry.manage.seed as seed

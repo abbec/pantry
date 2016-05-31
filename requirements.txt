@@ -5,3 +5,4 @@ fake-factory
 pylint
 pyflakes
 flake8
+celery
