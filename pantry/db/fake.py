@@ -23,3 +23,19 @@ def create_targets(num_targets):
         targets.append(target)
 
     return targets
+
+
+def create_leases(num_leases):
+    leases = []
+    for _ in range(0, num_leases):
+        lease = {
+            "state": rand.choice(["assigningtargets", "ended", "active"]),
+            "fulfilled": bool(rand.getrandbits(1)),
+            "time": rand.randint(1, 10),
+            "created_at": fake.date_time(),
+            "updated_at": fake.date_time(),
+        }
+
+        leases.append(lease)
+
+    return leases

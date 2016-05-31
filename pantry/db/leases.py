@@ -5,6 +5,12 @@ leases_table = database.Table(
     'leases',
     database.metadata,
     database.Column('lease_id', database.Integer, primary_key=True),
+    database.Column('state', database.Enum(
+        "assigningtargets", "ended", "active")),
+    database.Column('fulfilled', database.Boolean),
+    database.Column('time', database.Integer),
+    database.Column('created_at', database.DateTime),
+    database.Column('updated_at', database.DateTime)
 )
 
 assignment_table = database.Table(
@@ -14,5 +20,6 @@ assignment_table = database.Table(
                     nullable=False),
     database.Column('target_id', database.Integer,
                     database.ForeignKey("targets.target_id"),
-                    nullable=False)
+                    nullable=False),
+    database.Column('created_at', database.DateTime),
 )

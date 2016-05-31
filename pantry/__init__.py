@@ -9,6 +9,7 @@ from pantry.common import pantry_error
 
 # import database schemas
 import pantry.db.targets  # noqa
+import pantry.db.leases  # noqa
 
 
 def create_app(cfg_file):
@@ -65,8 +66,9 @@ def create_celery(cfg, app=None):
 
     app = app or create_app(cfg)
     capp = celery.Celery(app.import_name,
-                         backend=app.config['CELERY_BACKEND'],
-                         broker=app.config['CELERY_BROKER_URL'])
+                         broker=app.config.get(
+                             'CELERY_BROKER_URL',
+                             'amqp://localhost'))
 
     capp.conf.update(app.config)
     TaskBase = celery.Task
