@@ -1,6 +1,7 @@
 import logging
 import os
 import flask
+import celery
 import werkzeug.contrib.profiler as profiler
 from pantry.db import db as database, migrate
 from pantry.v1 import register_api as register_api_v1
@@ -8,6 +9,7 @@ from pantry.common import pantry_error
 
 # import database schemas
 import pantry.db.targets  # noqa
+import pantry.db.leases  # noqa
 
 
 def create_app(cfg_file):
@@ -58,3 +60,28 @@ def create_app(cfg_file):
     register_api_v1(app, url_prefix="/api/v1")
 
     return app
+
+
+def create_celery(cfg, app=None):
+
+    app = app or create_app(cfg)
+    capp = celery.Celery(app.import_name,
+                         broker=app.config.get(
+                             'CELERY_BROKER_URL',
+                             'amqp://localhost'))
+
+    capp.conf.update(app.config)
+    taskbase = celery.Task
+
+    class ContextTask(taskbase):
+        abstract = True
+
+        def run(self, *args, **kwargs):
+            return taskbase.run(self, *args, **kwargs)
+
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return taskbase.__call__(self, *args, **kwargs)
+
+    capp.Task = ContextTask
+    return capp
