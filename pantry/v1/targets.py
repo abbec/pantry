@@ -37,3 +37,18 @@ def get_target(target_id):
 
     target = dict(result)
     return flask.jsonify(target)
+
+
+@targets_blueprint.route('/targets/<int:target_id>/', methods=['DELETE'])
+def delete_target(target_id):
+
+    r = database.engine.execute(
+        targetsdb.targets_table.delete().
+        where(targetsdb.targets_table.c.target_id == target_id))
+
+    if r.rowcount == 0:
+        raise perror.PantryError(
+            "Could not find target with id {}".format(target_id),
+            status_code=404)
+
+    return "", 200

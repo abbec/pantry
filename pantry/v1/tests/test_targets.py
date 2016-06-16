@@ -49,6 +49,30 @@ def test_single(app, db):
     assert data["hostname"] is not None
 
 
+def test_delete(app, db):
+
+    # insert an event
+    tgt = fake.create_targets(1)
+    db.engine.execute(targets_table.insert(), tgt)
+
+    # fetch and verify
+    r = app.test_client().delete('/api/v1/targets/1/')
+
+    assert r.status_code == 200
+
+
+def test_delete_nonexistent(app, db):
+
+    del db
+
+    # fetch and verify
+    r = app.test_client().delete('/api/v1/targets/1/')
+    data = get_json(r)
+
+    assert r.status_code == 404
+    assert "id 1" in data['message']
+
+
 def test_single_nonexistent(app, db):
 
     del db
