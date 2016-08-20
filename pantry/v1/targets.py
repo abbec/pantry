@@ -3,7 +3,7 @@ import flask
 import pantry.db.targets as targetsdb
 from pantry.db import db as database
 
-from pantry.common.api_common import get_columns
+from pantry.common.api_common import get_columns, filter_columns
 import pantry.common.pantry_error as perror
 
 targets_blueprint = flask.Blueprint("targets", __name__)
@@ -13,9 +13,15 @@ targets_blueprint = flask.Blueprint("targets", __name__)
 def list_targets():
 
     # todo: add filtering
-    wanted_columns = get_columns(flask.request.args, targetsdb.targets_table.c)
+    cols = targetsdb.targets_table.c
+    wanted_columns = get_columns(flask.request.args, cols)
+    q = database.select(wanted_columns)
+    q = filter_columns(flask.request.args, q,
+                       [cols.hostname, cols.nickname, cols.health_percent])
 
-    result = database.engine.execute(database.select(wanted_columns))
+    # todo: filter tag values
+
+    result = database.engine.execute(q)
 
     return flask.jsonify({"targets": [dict(row) for row in result]})
 

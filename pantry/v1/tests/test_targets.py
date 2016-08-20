@@ -35,6 +35,56 @@ def test_list_fields(app, db):
     assert 'nickname' not in data['targets'][0]
 
 
+def test_list_filter(app, db):
+
+    # insert an event
+    tgt = fake.create_targets(2)
+    tgt[0]['hostname'] = "sune"
+    tgt[1]['hostname'] = "suna"
+    db.engine.execute(targets_table.insert(), tgt)
+
+    # fetch and verify
+    r = app.test_client().get('/api/v1/targets/?hostname=sune')
+    data = get_json(r)
+
+    assert len(data['targets']) == 1
+    assert data['targets'][0]['hostname'] == "sune"
+
+
+def test_list_filter_arithmetic(app, db):
+
+    # insert an event
+    tgt = fake.create_targets(1)
+    tgt[0]['health_percent'] = 45
+    db.engine.execute(targets_table.insert(), tgt)
+
+    # fetch and verify
+    r = app.test_client().get('/api/v1/targets/?health_percent={"gt":45}')
+    data = get_json(r)
+
+    assert len(data['targets']) == 0
+
+    r = app.test_client().get('/api/v1/targets/?health_percent={"gte":45}')
+    data = get_json(r)
+
+    assert len(data['targets']) == 1
+
+    r = app.test_client().get('/api/v1/targets/?health_percent={"lt":46}')
+    data = get_json(r)
+
+    assert len(data['targets']) == 1
+
+    r = app.test_client().get('/api/v1/targets/?health_percent={"lt":45}')
+    data = get_json(r)
+
+    assert len(data['targets']) == 0
+
+    r = app.test_client().get('/api/v1/targets/?health_percent={"lte":45}')
+    data = get_json(r)
+
+    assert len(data['targets']) == 1
+
+
 def test_single(app, db):
 
     # insert an event
