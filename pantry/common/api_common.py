@@ -1,5 +1,6 @@
 import json
 
+
 def get_columns(parameters, columns):
     cols = []
 
@@ -15,6 +16,8 @@ def filter_columns(parameters, query, supported_columns):
     for c in supported_columns:
         if c.name in parameters:
             # try to parse json
+            # this is to be able to support filtering like
+            # url?parameter={"gt":45} for e.g. greater than
             value = parameters[c.name]
             try:
                 j = json.loads(value)
