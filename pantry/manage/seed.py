@@ -28,6 +28,15 @@ class SeedDatabase(script.Command):  # pylint:disable=too-few-public-methods
                 dbtargets.targets_table.insert(),
                 fake.create_targets(100))
 
+            # some tags
+            database.engine.execute(
+                dbtargets.tags_table.insert(),
+                [{
+                    "key": "platform",
+                    "value": "linux",
+                    "target_id": 1
+                }])
+
             # leases
             database.engine.execute(
                 dbleases.leases_table.insert(),

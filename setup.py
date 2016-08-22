@@ -11,4 +11,5 @@ setup(name='pantry',
           'Flask',
           'Flask-SQLAlchemy',
           'Flask-Migrate',
+          'jsonschema'
           ])
