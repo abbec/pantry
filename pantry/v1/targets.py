@@ -73,19 +73,19 @@ def create_target():
         "properties": {
             "hostname": {
                 "type": "string"
-                },
+            },
             "nickname": {
                 "type": "string"
-                },
+            },
             "description": {
                 "type": "string"
-                },
+            },
             "maintainer": {
                 "type": "string"
-                },
+            },
             "healthPercent": {
                 "type": "number"
-                },
+            },
             "state": {
                 "type": "string",
                 "enum": [
@@ -93,18 +93,18 @@ def create_target():
                     "leased",
                     "down",
                     "maintenance"
-                    ]
-                },
+                ]
+            },
             "tags": {
                 "type": "array"
-                }
-            },
+            }
+        },
         "required": [
             "hostname",
             "description",
             "maintainer"
-            ]
-        }
+        ]
+    }
 
     content = flask.request.get_json(force=True)
 
@@ -121,7 +121,7 @@ def create_target():
         "hostname": content['hostname'],
         "description": content['description'],
         "maintainer": content['maintainer'],
-        }
+    }
 
     if 'nickname' in content:
         db_target['nickname'] = content['nickname']
@@ -147,7 +147,7 @@ def create_target():
                 "key": tag['key'],
                 "value": tag['value'],
                 "target_id": target_id
-                }
+            }
             db_tags.append(db_tag)
 
         if len(db_tags) > 0:
