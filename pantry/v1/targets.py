@@ -204,6 +204,9 @@ def targets_to_dict(db_targets, force_list=False):
             if 'health_percent' in t:
                 target['healthPercent'] = t.health_percent
 
+            if 'state' in t:
+                target['state'] = t.state
+
             if "key" in t and "value" in t:
                 target['tags'] = []
 
@@ -245,7 +248,22 @@ def get_columns(parameters, default):
     if 'hostname' in fields:
         filtered_cols.append(targetsdb.targets_table.c.hostname)
 
-    if 'id' not in fields:
-        filtered_cols.append(targetsdb.targets_table.c.target_id)
+    if 'nickname' in fields:
+        filtered_cols.append(targetsdb.targets_table.c.nickname)
+
+    if 'description' in fields:
+        filtered_cols.append(targetsdb.targets_table.c.description)
+
+    if 'maintainer' in fields:
+        filtered_cols.append(targetsdb.targets_table.c.maintainer)
+
+    if 'healthPercent' in fields:
+        filtered_cols.append(targetsdb.targets_table.c.health_percent)
+
+    if 'state' in fields:
+        filtered_cols.append(targetsdb.targets_table.c.state)
+
+    # always fetch id
+    filtered_cols.append(targetsdb.targets_table.c.target_id)
 
     return filtered_cols
