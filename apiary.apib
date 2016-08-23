@@ -45,7 +45,7 @@ Get information on a single target.
 + Response 200 (application/json)
 
     + Attributes (Target)
-    
+
 ### Update single target [PATCH]
 
 Update values for a single target.
@@ -56,7 +56,7 @@ Update values for a single target.
             { "op": "add", "path": "/nickname", "value": "Sunissimo" },
             { "op": "replace", "path": "/healthPercent", "value": 99 }
         ]
-        
+
 + Response 204
 
 ### Delete single target [DELETE]
@@ -89,7 +89,7 @@ Create an event for target with id `targetid`
 + Response 201 (application/json)
 
     Location: /targets/14/events/25
-    
+
     + Attributes (Event)
 
 ## Data Structures
@@ -109,7 +109,7 @@ Create an event for target with id `targetid`
     + (object)
         + key: platform (string, required)
         + value: linux (string, required)
-        
+
 ### Event
 + timestamp
 + message: "Something happened" (string, required)
@@ -133,7 +133,7 @@ List all known leases.
 
     + Attributes
         + leases: Lease, Lease (array[Lease], required)
-        
+
 ### Create a new lease [POST]
 
 Create a new lease, requesting hardware according to the information in the leas structure.

@@ -17,7 +17,20 @@ targets_table = database.Table(
     database.Column('nickname', database.String(60)),
     database.Column('description', database.String(60), nullable=False),
     database.Column('maintainer', database.String(60), nullable=False),
-    database.Column('health_percent', database.Integer),
+    database.Column('health_percent', database.Integer,
+                    nullable=False,
+                    default=100),
     database.Column('state', database.Enum(
         "ready", "leased", "down", "maintenance"))
+)
+
+tags_table = database.Table(
+    'target_tags',
+    database.metadata,
+    database.Column('tag_id', database.Integer, primary_key=True),
+    database.Column('key', database.String(64), nullable=False),
+    database.Column('value', database.String(256), nullable=False),
+    database.Column('target_id', database.Integer,
+                    database.ForeignKey("targets.target_id"),
+                    nullable=False)
 )

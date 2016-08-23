@@ -1,4 +1,5 @@
 import json
+import flask
 import pantry.db.fake as fake
 from pantry.db.targets import targets_table
 
@@ -97,6 +98,33 @@ def test_single(app, db):
 
     assert r.status_code == 200
     assert data["hostname"] is not None
+
+
+def test_create(app, db):
+
+    del db
+
+    target = {
+            "hostname": "sune",
+            "description": "Awesome host",
+            "maintainer": "sune@suneco.biz",
+            "healthPercent": 99,
+            "tags": [
+                {"key": "platform", "value": "linux"},
+                {"key": "gpu", "value": "amd"}]
+            }
+
+    r = app.test_client().post('/api/v1/targets/', data=json.dumps(target))
+
+    data = get_json(r)
+    assert r.status_code == 201
+    assert "id" in data
+    assert 'Location' in r.headers
+
+    assert data['healthPercent'] == target['healthPercent']
+    assert data['hostname'] == target['hostname']
+
+    assert len(data['tags']) == 2
 
 
 def test_delete(app, db):
