@@ -1,8 +1,9 @@
 -e .
 pytest
 pytest-cov
-fake-factory
+Faker
 pylint
+pycodestyle
 pyflakes
 flake8
 celery

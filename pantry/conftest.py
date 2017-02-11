@@ -1,6 +1,6 @@
 import pytest
 import pantry
-from pantry.db import db as database
+import pantry.v1.backend as be
 
 
 @pytest.fixture()
@@ -20,15 +20,14 @@ def app(request):
 
 
 @pytest.fixture()
-def db(app, request):  # pylint:disable=W0621
+def backend(app, request):  # pylint:disable=W0621
 
-    database.init_app(app)
-    database.create_all()
+    be.init(app)
+    be.db.create_all()
 
     def finalize():
-        database.reflect()
-        database.drop_all()
+        be.clear()
 
     request.addfinalizer(finalize)
 
-    return database
+    return be

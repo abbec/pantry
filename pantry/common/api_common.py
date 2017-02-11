@@ -3,11 +3,20 @@ import json
 reserved_params = ["limit", "fields", "offset"]
 
 
-def filter_columns(parameters, query, supported_columns):
+def get_fields_from_params(params):
+
+    if not params:
+        return []
+
+    fields = params.get('fields', "")
+    fields = fields.split(",")
+
+
+def filter_columns(params, query, supported_columns):
 
     for c in supported_columns:
-        if c.name in parameters:
-            query = expr_to_query(query, c, parameters[c.name])
+        if c.name in params:
+            query = expr_to_query(query, c, params[c.name])
 
     return query
 

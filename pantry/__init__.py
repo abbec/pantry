@@ -3,8 +3,8 @@ import os
 import flask
 import celery
 import werkzeug.contrib.profiler as profiler
-from pantry.db import db as database, migrate
 from pantry.v1 import register_api as register_api_v1
+import pantry.v1.backend as backend
 from pantry.common import pantry_error
 
 # import database schemas
@@ -47,14 +47,11 @@ def create_app(cfg_file):
         app.wsgi_app = profiler.ProfilerMiddleware(
             app.wsgi_app, restrictions=[10])
 
-    # init database
-    database.init_app(app)
+    # init backend
+    backend.init(app)
 
     # error handling
     app.register_blueprint(pantry_error.pantry_error)
-
-    # database migrations
-    migrate.init_app(app, database)
 
     # register api blueprints
     register_api_v1(app, url_prefix="/api/v1")
