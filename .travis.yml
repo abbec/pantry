@@ -6,7 +6,6 @@ install:
   - pip install coveralls
   - pip install -r requirements.txt
 script:
-  - sqlite3 --version
   - pylint pantry
   - pycodestyle pantry
   - py.test --cov pantry/

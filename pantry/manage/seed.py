@@ -16,7 +16,8 @@ class SeedDatabase(script.Command):  # pylint:disable=too-few-public-methods
         backend.db.create_all()
 
         # targets
-        backend.create_targets(fake.create_targets)
+        for t in fake.create_targets(100):
+            backend.create_target(t)
 
         # some tags
         # todo

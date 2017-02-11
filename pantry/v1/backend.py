@@ -121,55 +121,45 @@ def get_target(target_id, params=None):
     return next(iter(db_targets_to_dict(result)), None)
 
 
-def create_targets(content):
+def create_target(content):
 
-    db_targets = []
-    for tgt in content:
-        # create database row, parsing explicitly to not
-        # rely on names in sent in data
-        db_target = {
-            "hostname": tgt['hostname'],
-            "description": tgt['description'],
-            "maintainer": tgt['maintainer'],
-        }
+    # create database row, parsing explicitly to not
+    # rely on names in sent in data
+    db_target = {
+        "hostname": content['hostname'],
+        "description": content['description'],
+        "maintainer": content['maintainer'],
+    }
 
-        if 'nickname' in tgt:
-            db_target['nickname'] = tgt['nickname']
+    if 'nickname' in content:
+        db_target['nickname'] = content['nickname']
 
-        if 'healthPercent' in tgt:
-            db_target['health_percent'] = tgt['healthPercent']
+    if 'healthPercent' in content:
+        db_target['health_percent'] = content['healthPercent']
 
-        if 'state' in tgt:
-            db_target['state'] = tgt['state']
-
-        db_targets.append(db_target)
+    if 'state' in content:
+        db_target['state'] = content['state']
 
     # insert targets
-    q = tgttbl.targets_table.insert(db_targets)
+    q = tgttbl.targets_table.insert(db_target)
     result = db.engine.execute(q)
+    target_id = result.inserted_primary_key[0]
 
     # insert tags for each target
-    for i, tgt_id in enumerate(result.inserted_primary_key):
-        if 'tags' in content[i]:
-            tq = tgttbl.tags_table.insert()
-            db_tags = []
-            for tag in content[i]['tags']:
-                db_tag = {
-                    "key": tag['key'],
-                    "value": tag['value'],
-                    "target_id": tgt_id
-                }
-                db_tags.append(db_tag)
+    if 'tags' in content:
+        db_tags = []
+        for tag in content['tags']:
+            db_tag = {
+                "key": tag['key'],
+                "value": tag['value'],
+                "target_id": target_id
+            }
+            db_tags.append(db_tag)
 
-            if len(db_tags) > 0:
-                db.engine.execute(tq, db_tags)
+        if db_tags:
+            db.engine.execute(tgttbl.tags_table.insert(), db_tags)
 
-    return result.inserted_primary_key
-
-
-def create_target(content):
-    res = create_targets([content])
-    return next(iter(res), None)
+    return target_id
 
 
 def delete_target(target_id):
