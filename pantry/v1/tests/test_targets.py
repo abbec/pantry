@@ -39,10 +39,8 @@ def test_list_filter(app, backend):
     # insert an event
     tgt = fake.create_targets(2)
     tgt[0]['hostname'] = "sune"
-    backend.create_target(tgt[0])
-
     tgt[1]['hostname'] = "suna"
-    backend.create_target(tgt[1])
+    backend.create_targets(tgt)
 
     # fetch and verify
     r = app.test_client().get('/api/v1/targets/?hostname=sune')
