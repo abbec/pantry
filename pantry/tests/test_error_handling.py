@@ -31,6 +31,20 @@ def test_internal_error(app):
     del fail
 
 
+def test_invalid_request(app):
+
+    @app.route("/raise")
+    def fail():
+        flask.abort(400)
+
+    r = app.test_client().get('/raise')
+    data = get_json(r)
+
+    assert r.status_code == 400
+    assert "bad" in data['message']
+    del fail
+
+
 def test_pantry_error(app):
 
     @app.route("/raise")

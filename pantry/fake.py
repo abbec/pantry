@@ -16,7 +16,7 @@ def create_targets(num_targets):
             "nickname": fake.bs(),
             "description": fake.sentence(nb_words=6),
             "maintainer": fake.safe_email(),
-            "health_percent": rand.randint(0, 100),
+            "healthPercent": rand.randint(0, 100),
             "state": "ready"
         }
 
