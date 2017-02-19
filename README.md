@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/abbec/pantry.svg?branch=master)](https://travis-ci.org/abbec/pantry)
-[![Coverage Status](https://coveralls.io/repos/github/abbec/pantry/badge.svg?branch=master)](https://coveralls.io/github/abbec/pantry?branch=master)
+[![codecov](https://codecov.io/gh/abbec/pantry/branch/master/graph/badge.svg)](https://codecov.io/gh/abbec/pantry)
 [![Code Health](https://landscape.io/github/abbec/pantry/master/landscape.svg?style=flat)](https://landscape.io/github/abbec/pantry/master)
 
 # pantry

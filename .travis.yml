@@ -3,13 +3,13 @@ language: python
 python: '3.6'
 
 install:
-  - pip install coveralls
+  - pip install codecov
   - pip install -r requirements.txt
 script:
   - pycodestyle pantry
   - py.test --cov pantry/
 
-after_success: coveralls
+after_success: codecov
 notifications:
   slack:
     secure: TVBhaWeC3dfuNO7X9Ebq8JTcgi0c2sMZYW9XRtkcvxwD5Kd5bB1+dcfexsC6pNv6413GE5BwZUO1r6UYmt6jreQPRdfpY+57LXqnqcNVG5zhNgC88GwW/wmusCTlSuXZwevSpR+sFkmtx9z3avnLQB22JbTHDKmBtde/7Uc/ltX1EfmYaJT4+27XRY5UvYQQyqzcbsCNaKQ+ENNQm6NVfMlTOnFjnrtn8hhbHq/Lx9g8QmgZ/mlLQzhvjQnBj/NcL0oKrOlDdWipsOQCw5/DtM0roZk6GAZbg3jqepgMOvFeXbOoeHC2Mw1bYALi+RY0bj7orSKsxO/11aEtVq+JcefgSULkoOS8rBhAivhluOEc3CLy6MdV9lCAzAWxn227z35rPRFLqIg6UUdZn9yfVWY09RsLm6SLxpJsgzFwy3cVCwOMO0qYrGU8NzohjpKHgwPbTb3X5cnUMRU5daTKED2Hmurufgy5m+cfUbxXAiemwGX2L/KokMeHmrLvZMI2HG9Gp0AStPu+3+JfI3QqggLbmgh6Nyueif/Oxd9cXWDPqdMr0ph6XwH0IQOCK5riPA9SKxSXrEAb1LwpwJ5QfvkBeHB0apnXj4dqUTih874MK+lN49tkCjL1FXZUhqJgMCcoYObay8GPkSoHBmYlKSgEZg265nfKixvRbob0qvA=
