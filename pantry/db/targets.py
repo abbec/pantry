@@ -18,9 +18,7 @@ targets_table = db.Table(
     db.Column('nickname', db.String(60)),
     db.Column('description', db.String(60), nullable=False),
     db.Column('maintainer', db.String(60), nullable=False),
-    db.Column('health_percent', db.Integer, nullable=False, default=100),
-    db.Column('state', db.Enum(
-        "ready", "leased", "down", "maintenance"))
+    db.Column('active', db.Boolean)
 )
 
 tags_table = db.Table(
@@ -60,11 +58,8 @@ def get_columns(fields):
     if 'maintainer' in fields:
         filtered_cols.append(targets_table.c.maintainer)
 
-    if 'healthPercent' in fields:
-        filtered_cols.append(targets_table.c.health_percent)
-
-    if 'state' in fields:
-        filtered_cols.append(targets_table.c.state)
+    if 'active' in fields:
+        filtered_cols.append(targets_table.c.active)
 
     # always fetch id
     filtered_cols.append(targets_table.c.target_id)
@@ -89,11 +84,8 @@ def to_dict(db_targets):
             if 'maintainer' in t:
                 target['maintainer'] = t.maintainer
 
-            if 'health_percent' in t:
-                target['healthPercent'] = t.health_percent
-
-            if 'state' in t:
-                target['state'] = t.state
+            if 'active' in t:
+                target['active'] = t.active
 
             if "key" in t and "value" in t:
                 target['tags'] = []
@@ -118,8 +110,7 @@ def get(params):
     # filter standard columns
     q = common.filter_columns(params, q,
                               [targets_table.c.hostname,
-                               targets_table.c.nickname,
-                               targets_table.c.health_percent])
+                               targets_table.c.nickname])
 
     # filter tags
     for k, v in params.to_dict().items():
@@ -155,11 +146,8 @@ def create(content):
     if 'nickname' in content:
         db_target['nickname'] = content['nickname']
 
-    if 'healthPercent' in content:
-        db_target['health_percent'] = content['healthPercent']
-
-    if 'state' in content:
-        db_target['state'] = content['state']
+    if 'active' in content:
+        db_target['active'] = content['active']
 
     # insert targets
     q = targets_table.insert(db_target)

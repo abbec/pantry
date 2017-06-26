@@ -53,9 +53,3 @@ def test_create_profile():
         a = pantry.create_app(f.name)
         assert not a.debug
         assert isinstance(a.wsgi_app, profiler.ProfilerMiddleware)
-
-
-def test_create_celery(app):
-    celery = pantry.create_celery('bogus', app)
-
-    assert celery is not None

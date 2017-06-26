@@ -1,4 +1,5 @@
 import random
+import datetime
 import faker
 
 fake = faker.Faker()
@@ -16,8 +17,7 @@ def create_targets(num_targets):
             "nickname": fake.bs(),
             "description": fake.sentence(nb_words=6),
             "maintainer": fake.safe_email(),
-            "healthPercent": rand.randint(0, 100),
-            "state": "ready"
+            "active": True
         }
 
         targets.append(target)
@@ -28,12 +28,11 @@ def create_targets(num_targets):
 def create_leases(num_leases):
     leases = []
     for _ in range(0, num_leases):
+        created = fake.date_time()
         lease = {
-            "state": rand.choice(["assigningtargets", "ended", "active"]),
-            "fulfilled": bool(rand.getrandbits(1)),
-            "time": rand.randint(1, 10),
+            "length": rand.randint(1, 10),
+            "timeout": rand.randint(1, 2),
             "created_at": fake.date_time(),
-            "updated_at": fake.date_time(),
         }
 
         leases.append(lease)

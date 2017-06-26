@@ -50,14 +50,8 @@ def create_target():
             "healthPercent": {
                 "type": "number"
             },
-            "state": {
-                "type": "string",
-                "enum": [
-                    "ready",
-                    "leased",
-                    "down",
-                    "maintenance"
-                ]
+            "active": {
+                "type": "boolean"
             },
             "tags": {
                 "type": "array"
